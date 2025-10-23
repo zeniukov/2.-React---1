@@ -7,18 +7,18 @@ import styles from './App.module.css';
 function App() {
   const [value, setValue] = useState('');
   const [list, setList] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
 	const [isValueValid, setIsValueValid] = useState(false);
 
   const onInputButtonClick = () => {
 		const promptValue = prompt('Введите значение');
 		if (promptValue.length < 3) {
-			setError(<div className={styles.error}>Введенное значение должно содержать минимум 3 символа</div>);
+			setError(true);
 			setValue('');
 			setIsValueValid(false);
 		} else {
 			setValue(promptValue);
-			setError('');
+			setError(false);
 			setIsValueValid(true);
 		};
 	}
@@ -28,7 +28,7 @@ function App() {
 		if (value !== '') {
 			setList(updatedList);
 			setValue('');
-			setError('');
+			setError(false);
 			setIsValueValid(false);
 		};
 	}
@@ -50,7 +50,7 @@ function App() {
 			<p className={styles.noMarginText}>
 				Текущее значение <code>value</code>: "<output className={styles.currentValue} >{value}</output>"
 			</p>
-			{error}
+			{error && <div className={styles.error}>Введенное значение должно содержать минимум 3 символа</div>}
 			<div className={styles.buttonsContainer}>
 				<button onClick={onInputButtonClick} className={styles.button}>Ввести новое</button>
 				<button onClick={onAddButtonClick} className={styles.button} disabled={!isValueValid}>Добавить в список</button>
